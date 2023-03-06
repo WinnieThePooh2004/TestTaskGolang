@@ -1,6 +1,6 @@
 package Entities
 
-type UrlPackage struct {
+type Url struct {
 	Id  int
 	Url string
 }

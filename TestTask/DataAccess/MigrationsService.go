@@ -15,14 +15,14 @@ func NewMigrationService(db *gorm.DB) *MigrationsService {
 }
 
 func (context MigrationsService) EnsureMigrated() error {
-	err := context.db.AutoMigrate(&Entities.UrlPackage{})
+	err := context.db.Table("UrlPackage").AutoMigrate(&Entities.Url{})
 
 	if err != nil {
 		return err
 	}
 
 	var count int64
-	if err := context.db.Model(&Entities.UrlPackage{}).Count(&count).Error; err != nil {
+	if err := context.db.Table("UrlPackage").Count(&count).Error; err != nil {
 		return err
 	}
 
@@ -31,7 +31,10 @@ func (context MigrationsService) EnsureMigrated() error {
 	}
 
 	for i := 1; i < 5; i++ {
-		context.db.Create(&Entities.UrlPackage{Url: "http://inv-nets.admixer.net/test-dsp/dsp?responseType=1&profile=" + strconv.Itoa(i)})
+		context.db.Table("UrlPackage").Create(&Entities.Url{
+			Url: "http://inv-nets.admixer.net/test-dsp/dsp?responseType=1&profile=" + strconv.Itoa(i),
+			Id:  i,
+		})
 	}
 
 	return nil
