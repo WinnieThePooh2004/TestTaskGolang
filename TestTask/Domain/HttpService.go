@@ -15,18 +15,18 @@ func NewHttpService() IHttpService {
 	return HttpService{client: client}
 }
 
-func (service HttpService) Price(url string) float64 {
+func (service HttpService) Price(url string) (float64, error) {
 	response, err := service.client.Get(url)
 
 	if err != nil {
-		return 0
+		return 0, err
 	}
 
 	var responseContent Responses.PriceResponse
 	err = json.NewDecoder(response.Body).Decode(&responseContent)
 	if err != nil {
-		return 0
+		return 0, nil
 	}
 
-	return responseContent.Price
+	return responseContent.Price, nil
 }

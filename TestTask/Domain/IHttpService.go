@@ -1,5 +1,5 @@
 package Domain
 
 type IHttpService interface {
-	Price(url string) float64
+	Price(url string) (float64, error)
 }

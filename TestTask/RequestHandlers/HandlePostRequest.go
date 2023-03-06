@@ -17,7 +17,7 @@ func HandlePostRequest(factory *DataFactories.DataFactory, context *fiber.Ctx) {
 
 	service, err := factory.GetUrlPackageService()
 	if err != nil {
-		context.Status(204)
+		context.Status(500)
 		return
 	}
 
@@ -25,6 +25,11 @@ func HandlePostRequest(factory *DataFactories.DataFactory, context *fiber.Ctx) {
 
 	if badIdResponse != nil || notFoundUrlResponse != nil || nilValueResponse != nil {
 		context.Status(204)
+		return
+	}
+
+	if err != nil {
+		context.Status(500)
 		return
 	}
 
@@ -39,6 +44,6 @@ func HandlePostRequest(factory *DataFactories.DataFactory, context *fiber.Ctx) {
 	err = context.SendString(jsonString)
 
 	if err != nil {
-		return
+		context.Status(500)
 	}
 }

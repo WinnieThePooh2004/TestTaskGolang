@@ -1,5 +1,5 @@
 package Responses
 
 type MaxPriceResponse struct {
-	MaxPrice float64
+	Price float64 `json:"price"`
 }

@@ -42,13 +42,16 @@ func (service UrlPackageService) GetMaxPrice(request Requests.Request) (*Respons
 	maxPrice := 0.0
 
 	for i := 0; i < len(urls); i++ {
-		price := service.httpService.Price(urls[i])
+		price, err := service.httpService.Price(urls[i])
+		if err != nil {
+			return nil, nil, nil, nil, err
+		}
 		if price > maxPrice {
 			maxPrice = price
 		}
 	}
 
-	return &Responses.MaxPriceResponse{MaxPrice: maxPrice}, nil, nil, nil, nil
+	return &Responses.MaxPriceResponse{Price: maxPrice}, nil, nil, nil, nil
 }
 
 func removeDuplicates(arr []int) []int {

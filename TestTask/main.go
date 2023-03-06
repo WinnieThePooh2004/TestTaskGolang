@@ -9,6 +9,18 @@ import (
 func main() {
 	factory := &DataFactories.DataFactory{}
 
+	migrationsService, err := factory.GetMigrationsService()
+
+	if err != nil {
+		return
+	}
+
+	err = migrationsService.EnsureMigrated()
+
+	if err != nil {
+		return
+	}
+
 	app := fiber.New()
 
 	app.Get("/", func(ctx *fiber.Ctx) error {
@@ -21,7 +33,7 @@ func main() {
 		return nil
 	})
 
-	err := app.Listen(":3000")
+	err = app.Listen(":3000")
 
 	if err != nil {
 		return

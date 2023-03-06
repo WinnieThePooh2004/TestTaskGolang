@@ -14,7 +14,7 @@ func NewMigrationService(db *gorm.DB) *MigrationsService {
 	return &MigrationsService{db: db}
 }
 
-func (context MigrationsService) EnsureCreated() error {
+func (context MigrationsService) EnsureMigrated() error {
 	err := context.db.AutoMigrate(&Entities.UrlPackage{})
 
 	if err != nil {
